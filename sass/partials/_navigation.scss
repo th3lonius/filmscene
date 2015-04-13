@@ -1,0 +1,179 @@
+/* MENU TOGGLE */
+
+@mixin line {
+  @include transition(all, 0.2s, ease);
+  display: inline-block;
+  width: $button-size;
+  height: $button-size/9;
+  background: #FFF;
+  border-radius: $button-size/14;
+}
+
+$button-size: 3.5rem;
+.lines-button {
+  @include transition(all, 0.2s, ease);
+  display: inline-block;
+  cursor: pointer;
+  position: fixed;
+  top: 35px; right: 40px;
+  user-select: none;
+  border-radius: $button-size/7;
+  z-index: 99999;
+  &:hover {
+    opacity: 1;
+  }
+  &:hover .lines::before {
+    top: 1rem;
+  }
+  &:hover .lines::after {
+    top: -1rem;
+  }
+  &:active {
+    transition: 0;
+    background: rgba(0, 0, 0, .1);
+  }
+  .lines {
+    @include line;
+    position: relative;
+    &::before, &::after {
+      @include line;
+      position: absolute;
+      left: 0;
+      content: '';
+      transform-origin: $button-size/14 center;
+    }
+    &::before {
+      top: $button-size/4;
+    }
+    &::after {
+      top: -$button-size/4;
+    }
+  }
+}
+
+.lines-button.close .lines {
+  /*hide the middle line*/
+  
+  background: transparent;
+  /*overlay the lines by setting both their top values to 0*/
+  
+  &::before, &::after {
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    top: 0;
+    width: $button-size;
+  }
+  // rotate the lines to form the x shape
+  &::before {
+    @include rotate(Z, 45);
+  }
+  &::after {
+    @include rotate(Z, -45);
+  }
+}
+/* PRIMARY NAV */
+
+body.pml-open nav.push-menu-right {
+  right: 0;
+}
+
+body.pml-open main {
+  right: 12%;
+}
+
+.nav-primary {
+  @include transition(right, 0.2s, ease-in-out);
+  background: $black;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: -100%;
+  text-align: center;
+  width: 50%;
+  height: 100%;
+  z-index: 99999;
+  ul {
+    @include translate(0, -50%);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    width: auto;
+    height: auto;
+    &::before {
+      border-bottom: 1px solid $white;
+      color: $light-gold;
+      content: "MENU";
+      font-size: $h6;
+      font-weight: 300;
+      letter-spacing: -1px;
+      padding-bottom: 0.5rem;
+      position: absolute;
+      text-align: left;
+      top: -5rem;
+      left: 0;
+      width: 18%;
+    }
+    li.nav-item {
+      height: auto;
+      position: relative;
+      text-align: left;
+      a {
+        @include transition(all, 0.1s, ease-in-out);
+        @include respond-to(tablet) {
+          font-size: $h4;
+        }
+        @include respond-to(laptop) {
+          font-size: $h3;
+          line-height: 1;
+        }
+        @include respond-to(desktop) {
+          font-size: $h2;
+        }
+        color: $white;
+        display: inline-block;
+        font-family: $title-font;
+        font-size: $h5;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        padding: 0.4rem 0;
+        position: relative;
+        text-transform: uppercase;
+        &:hover::after {
+          width: 100%;
+        }
+        &::after {
+          @include transition(all, 0.25s, ease-in);
+          background: $white;
+          content: "";
+          position: absolute;
+          bottom: 3%;
+          left: 1%;
+          width: 0;
+          height: 1px;
+        }
+      }
+    }
+  }
+}
+/* PAGE NAV */
+
+a[rel="prev"],
+a[rel="next"] {
+  @include transition(all, .2s, ease-in-out, 0.1s);
+  font-family: $title-font;
+  font-size: $base;
+  font-weight: 700;
+  padding: 10px;
+  position: fixed;
+  bottom: 300px;
+  text-transform: uppercase;
+  width: 80px;
+  z-index: 1;
+  &:hover {
+    color: $white;
+  }
+}
